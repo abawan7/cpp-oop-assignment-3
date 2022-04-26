@@ -54,7 +54,7 @@ void Vector_Type::setter() {
 	c = *z;
 }
 
-//Copy Constructor
+
 Vector_Type::Vector_Type(const Vector_Type& obj)
 {
 	x = new double;
@@ -69,7 +69,7 @@ Vector_Type::Vector_Type(const Vector_Type& obj)
 
 }
 
-// Assignment Operator
+
 void Vector_Type:: operator = (const Vector_Type& obj) {
 	x = new double;
 	*x = *obj.x;
@@ -194,16 +194,14 @@ bool operator << (Vector_Type c1, Vector_Type c2) {
 
 
 void Vector_Type::Display() {
-	cout << *x << "i- " << *y << "j- " << *z << "z  " << endl;
+	cout << *x << "i  " << *y << "j  " << *z << "z  " << endl;
 }
 
 void Vector_Type::Display2() {
-	cout << a << "i- " << b << "j- " << c << "z  " << endl;
+	cout << a << "i  " << b << "j  " << c << "z  " << endl;
 }
 
 
-
-//Calling Destructor for Deallocation
 Vector_Type::~Vector_Type()
 {
 	delete x;
