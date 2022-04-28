@@ -14,6 +14,7 @@ public:
 	char Index(int);
 	char Substring(char*&, int, int);
 	int Startindex(char*);
+	MyString operator=(MyString&);
 	MyString operator+(MyString&);
 	friend bool operator == (MyString, MyString);
 	friend bool operator != (MyString, MyString);
@@ -23,6 +24,7 @@ public:
 
 private:
 	char* str;
+	int i;
 };
 
 MyString::MyString(int size)
@@ -73,6 +75,7 @@ char MyString::Index(int index) {
 }
 
 char MyString::Substring(char*& substr, int start, int end) {
+	i = start;
 	for (int i = start - 1; i <= end - 1; i++) {
 		substr[i] = str[i];
 		cout << substr[i];
@@ -81,8 +84,49 @@ char MyString::Substring(char*& substr, int start, int end) {
 }
 
 int MyString::Startindex(char* substr) {
-	int index = 0;
+	int index = i;
 	return index;
+}
+
+MyString MyString::operator=(MyString& obj1)
+{
+	MyString temp(strlen(str));
+	bool flag = true;
+	if (strlen(str) == strlen(obj1.str)) {
+		for (int i = 0; i < strlen(str); i++) {
+			if (str[i] == obj1.str[i]) {
+				continue;
+			}
+			flag = false;
+		}
+	}
+	else {
+		flag == false;
+	}
+
+	if (flag == true) {
+		cout << "Object String are Equal" << endl;
+	}
+	else {
+		cout << "Object String are not Equal " << endl;
+	}
+	return temp;
+}
+
+MyString MyString::operator+(MyString& obj1)
+{
+	int length = strlen(str) + strlen(obj1.str);
+	MyString temp(length);
+	temp.str = str;
+	int j = 0;
+	for (int i = strlen(str) + 1; i <= length; i++) {
+		temp.str[i] = obj1.str[j];
+		j++;
+	}
+	for (int i = 0; i <= length; i++) {
+		cout << temp.str[i];
+	}
+	return temp;
 }
 
 bool operator== (MyString c1, MyString c2) {
@@ -128,14 +172,6 @@ int operator > (MyString c1, MyString c2) {
 	}
 }
 
-MyString MyString::operator+(MyString& obj1)
-{
-	int length = strlen(str) + strlen(obj1.str);
-	MyString temp(length);
-	*(temp.str) = *(str)+(*(obj1.str));
-	return temp;
-}
-
 void MyString::Display() {
 	for (int i = 0; i < strlen(str); i++) {
 		cout << str[i];
@@ -152,7 +188,7 @@ int main() {
 	char* substr;
 	int index, start, end, i;
 	string str;
-	MyString S1(50), S2(50);
+	MyString S1(50), S2(50), temp(50);
 	S1.setter(50);
 	cout << "The Length of the String 1 is:   " << S1.length() << endl;
 	S2.setter(50);
@@ -186,6 +222,18 @@ int main() {
 	S1.Substring(substr, start, end);
 	cout << "\nString 2 Substring: ";
 	S2.Substring(substr, start, end);
+
+	cout << "\n--------------------------" << endl;
+	cout << "Starting Index of a Substring:   " << S1.Startindex(substr) << endl;
+
+	cout << "\n--------------------------" << endl;
+	cout << "Comparing Object Strings" << endl;
+	S1 = S2;
+
+	cout << "\n--------------------------" << endl;
+	cout << "Adding Object Strings" << endl;
+	S1 + S2;
+
 
 	cout << "\n--------------------------" << endl;
 	flag = operator == (S1, S2);
