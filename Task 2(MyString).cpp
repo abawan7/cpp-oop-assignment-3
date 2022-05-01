@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstring>	
 using namespace std;
 
 class MyString
@@ -15,11 +16,18 @@ public:
 	char Substring(char*&, int, int);
 	int Startindex(char*);
 	MyString operator=(MyString&);
-	MyString operator+(MyString&);
+	MyString operator-(MyString&);
 	friend bool operator == (MyString, MyString);
 	friend bool operator != (MyString, MyString);
 	friend int operator < (MyString, MyString);
 	friend int operator > (MyString, MyString);
+
+	void operator+(string);
+	friend void operator+(string obj, MyString obj1);
+	void operator +(int);
+	friend void operator+(int obj, MyString obj1);
+	void operator +(char);
+	friend void operator+(char obj, MyString obj1);
 	~MyString();
 
 private:
@@ -88,6 +96,8 @@ int MyString::Startindex(char* substr) {
 	return index;
 }
 
+
+
 MyString MyString::operator=(MyString& obj1)
 {
 	MyString temp(strlen(str));
@@ -113,7 +123,7 @@ MyString MyString::operator=(MyString& obj1)
 	return temp;
 }
 
-MyString MyString::operator+(MyString& obj1)
+MyString MyString::operator-(MyString& obj1)
 {
 	int length = strlen(str) + strlen(obj1.str);
 	MyString temp(length);
@@ -172,8 +182,148 @@ int operator > (MyString c1, MyString c2) {
 	}
 }
 
+void MyString::operator+(string obj1) {
+	MyString temp(50);
+	int count = 0;
+	char a[50];
+	int c;
+	strcpy_s(a, obj1.c_str());
+	for (int i = 0; i < 50; i++)
+	{
+		if ((a[i] >= 'A' && a[i] <= 'Z') || (a[i] >= 'a' && a[i] <= 'z'))
+		{
+			count++;
+		}
+	}
+	for (int i = 0; str[i] != '\0'; i++)
+	{
+		temp.str[i] = str[i];
+	}
+	c = count + length();
+	for (int i = length(); i < c; i++)
+	{
+		temp.str[i] = a[i - length()];
+	}
+	temp.str[c] = '\0';
+	temp.Display();
+}
+
+void operator+(string obj1, MyString obj) {
+	MyString temp(50);
+	int count = 0;
+	char a[50];
+	int c;
+	strcpy_s(a, obj1.c_str());
+	for (int i = 0; i < 50; i++)
+	{
+		if ((a[i] >= 'A' && a[i] <= 'Z') || (a[i] >= 'a' && a[i] <= 'z'))
+		{
+			count++;
+		}
+	}
+
+	for (int i = 0; i < count; i++)
+	{
+		temp.str[i] = a[i];
+	}
+	c = count + obj.length();
+	int j = 0;
+	for (int i = count; obj.str[j] != '\0'; i++)
+	{
+		temp.str[i] = obj.str[j];
+		j++;
+	}
+
+	temp.str[c] = '\0';
+	temp.Display();
+}
+
+void MyString::operator+(int x) {
+	MyString temp(50);
+	int count = 0;
+	int a = x;
+	int m = 0;
+	char n[10];
+	int c = 0;
+	while (x != 0) {
+		m = x % 10;
+		n[c] = m;
+		x = x / 10;
+		count++;
+		c++;
+	}
+	for (int i = 0; i < length(); i++) {
+		temp.str[i] = str[i];
+	}
+	int j = count - 1;
+	for (int i = length(); i < (length() + count); i++) {
+		temp.str[i] = (n[j] + 48);
+		j--;
+	}
+	temp.str[(length() + count)] = '\0';
+	temp.Display();
+}
+
+void operator+(int x, MyString obj) {
+	MyString temp(50);
+	int count = 0;
+	int a = x;
+	int m = 0;
+	char n[10];
+	int c = 0;
+	while (x != 0) {
+		m = x % 10;
+		n[c] = m;
+		x = x / 10;
+		count++;
+		c++;
+	}
+	int j = count - 1;
+	for (int i = 0; i < count; i++) {
+		temp.str[i] = (n[j] + 48);
+		j--;
+	}
+	int e = 0;
+	for (int i = count; i < (obj.length() + count); i++) {
+		temp.str[i] = obj.str[e];
+		e++;
+	}
+
+	temp.str[(obj.length() + count)] = '\0';
+	temp.Display();
+}
+
+void MyString::operator+(char x) {
+	MyString temp(50);
+
+	for (int i = 0; i < length(); i++) {
+		temp.str[i] = str[i];
+	}
+	for (int i = length(); i < (length() + 1); i++) {
+		temp.str[i] = x;
+	}
+	temp.str[(length() + 1)] = '\0';
+	temp.Display();
+}
+
+void operator+(char p, MyString obj) {
+	MyString temp(50);
+
+	for (int i = 0; i < 1; i++) {
+		temp.str[i] = p;
+	}
+	int j = 0;
+	for (int i = 1; i < obj.length() + 1; i++) {
+		temp.str[i] = obj.str[j];
+		j++;
+	}
+	temp.str[(obj.length() + 1)] = '\0';
+	temp.Display();
+}
+
+
 void MyString::Display() {
-	for (int i = 0; i < strlen(str); i++) {
+	for (int i = 0; i <= strlen(str); i++) {
 		cout << str[i];
 	}
 }
@@ -213,6 +363,42 @@ int main() {
 	cout << "The Character On the given Index In String 2: " << S2.Index(index) << endl;
 
 	cout << "\n--------------------------" << endl;
+	string s;
+	cout << "Enter String:  ";
+	cin >> s;
+	cout << "Appending After:    ";
+	S1 + s;
+	cout << endl << endl;
+	cout << "Appending Before:    ";
+	s + S1;
+	cout << endl << endl;
+
+	cout << "\n--------------------------" << endl;
+
+	int n;
+	cout << "Enter Number:  ";
+	cin >> n;
+	cout << "Appending After:    ";
+	S1 + n;
+	cout << endl << endl;
+	cout << "Appending Before:    ";
+	n + S1;
+	cout << endl << endl;
+
+	cout << "\n--------------------------" << endl;
+
+	char p;
+	cout << "Enter Character: ";
+	cin >> p;
+	cout << "Appending After:    ";
+	S1 + p;
+	cout << endl << endl;
+	cout << "Appending Before:    ";
+	p + S1;
+	cout << endl << endl;
+
+	cout << "\n--------------------------" << endl;
+
 	cout << "Enter Start Index String 1:   ";
 	cin >> start;
 	cout << "Enter End Index of String 1:   ";
@@ -232,7 +418,7 @@ int main() {
 
 	cout << "\n--------------------------" << endl;
 	cout << "Adding Object Strings" << endl;
-	S1 + S2;
+	S1 - S2;
 
 
 	cout << "\n--------------------------" << endl;
