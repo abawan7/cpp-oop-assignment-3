@@ -1,6 +1,7 @@
 #include <iostream>
+#include <cstring>
 #include <string>
-#include <cstring>	
+
 using namespace std;
 
 class MyString
@@ -28,6 +29,10 @@ public:
 	friend void operator+(int obj, MyString obj1);
 	void operator +(char);
 	friend void operator+(char obj, MyString obj1);
+	void operator +(float);
+	friend void operator+(float obj, MyString obj1);
+	void operator +(char[]);
+	friend void operator+(char[], MyString obj1);
 	~MyString();
 
 private:
@@ -322,6 +327,44 @@ void operator+(char p, MyString obj) {
 }
 
 
+void MyString::operator+(float x) {
+	MyString temp(50);
+	char buffer[sizeof(x)];
+	memcpy(buffer, &x, sizeof(x));
+
+}
+
+
+void MyString::operator+(char x[]) {
+	MyString temp(50);
+	for (int i = 0; i < length(); i++) {
+		temp.str[i] = str[i];
+	}
+	int c = length() + strlen(x);
+	int j = 0;
+	for (int i = length(); i < c; i++) {
+		temp.str[i] = x[j];
+		j++;
+	}
+	temp.str[c] = '\0';
+	temp.Display();
+}
+
+void operator+(char p[], MyString obj) {
+	MyString temp(50);
+	for (int i = 0; i < strlen(p); i++) {
+		temp.str[i] = p[i];
+	}
+	int c = obj.length() + strlen(p);
+	int j = 0;
+	for (int i = strlen(p); i < c; i++) {
+		temp.str[i] = obj.str[j];
+		j++;
+	}
+	temp.str[c] = '\0';
+	temp.Display();
+}
+
 void MyString::Display() {
 	for (int i = 0; i <= strlen(str); i++) {
 		cout << str[i];
@@ -332,7 +375,8 @@ MyString::~MyString()
 {
 }
 
-int main() {
+int main()
+{
 	int x;
 	bool flag;
 	char* substr;
@@ -395,6 +439,27 @@ int main() {
 	cout << endl << endl;
 	cout << "Appending Before:    ";
 	p + S1;
+	cout << endl << endl;
+
+	cout << "\n--------------------------" << endl;
+	char y[100];
+	cout << "Enter Character Array: ";
+	cin.getline(y, 100);
+	cout << "Appending After:    ";
+	S1 + y;
+	cout << endl << endl;
+	cout << "Appending Before:    ";
+	y + S1;
+	cout << endl << endl;
+
+	cout << "\n--------------------------" << endl;
+	float f;
+	cout << "Enter Float: ";
+	cin >> f;
+	cout << "Appending After:    ";
+	S1 + f;
+	cout << endl << endl;
+	cout << "Appending Before:    ";
 	cout << endl << endl;
 
 	cout << "\n--------------------------" << endl;
