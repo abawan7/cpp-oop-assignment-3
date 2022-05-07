@@ -29,10 +29,10 @@ public:
 	friend void operator+(int obj, MyString obj1);
 	void operator +(char);
 	friend void operator+(char obj, MyString obj1);
-	void operator +(float);
-	friend void operator+(float obj, MyString obj1);
 	void operator +(char[]);
 	friend void operator+(char[], MyString obj1);
+	void operator +(float);
+	friend void operator+(float obj, MyString obj1);
 	~MyString();
 
 private:
@@ -327,14 +327,6 @@ void operator+(char p, MyString obj) {
 }
 
 
-void MyString::operator+(float x) {
-	MyString temp(50);
-	char buffer[sizeof(x)];
-	memcpy(buffer, &x, sizeof(x));
-
-}
-
-
 void MyString::operator+(char x[]) {
 	MyString temp(50);
 	for (int i = 0; i < length(); i++) {
@@ -364,6 +356,67 @@ void operator+(char p[], MyString obj) {
 	temp.str[c] = '\0';
 	temp.Display();
 }
+
+void MyString::operator+(float x) {
+	MyString temp(50);
+	string num(std::to_string(x));
+	num.empty();
+
+	int count = 0;
+	char a[50];
+	int c;
+	strcpy_s(a, num.c_str());
+	for (int i = 0; i < 50; i++)
+	{
+		count++;
+	}
+	for (int i = 0; str[i] != '\0'; i++)
+	{
+		temp.str[i] = str[i];
+	}
+	c = count + length();
+	for (int i = length(); i < c; i++)
+	{
+		temp.str[i] = a[i - length()];
+	}
+	temp.str[c] = '\0';
+	temp.Display();
+}
+
+void operator+(float obj, MyString obj1) {
+	MyString t(50);
+	string num(std::to_string(obj));
+	num.empty();
+
+	char a[50];
+	int c;
+	int count = 0;
+	strcpy_s(a, num.c_str());
+
+	for (int i = 0; i < 50; i++)
+	{
+		if ((a[i] >= 'A' && a[i] <= 'Z') || (a[i] >= 'a' && a[i] <= 'z'))
+		{
+			count++;
+		}
+	}
+
+	for (int i = 0; i < 50; i++)
+	{
+		t.str[i] = a[i];
+	}
+	c = count + obj1.length();
+	int j = 0;
+	for (int i = count; obj1.str[j] != '\0'; i++)
+	{
+		t.str[i] = obj1.str[j];
+		j++;
+	}
+
+	t.str[c] = '\0';
+	t.Display();
+}
+
 
 void MyString::Display() {
 	for (int i = 0; i <= strlen(str); i++) {
@@ -460,6 +513,7 @@ int main()
 	S1 + f;
 	cout << endl << endl;
 	cout << "Appending Before:    ";
+	f + S1;
 	cout << endl << endl;
 
 	cout << "\n--------------------------" << endl;
@@ -483,6 +537,7 @@ int main()
 
 	cout << "\n--------------------------" << endl;
 	cout << "Adding Object Strings" << endl;
+	cout << "After Adding:   ";
 	S1 - S2;
 
 
