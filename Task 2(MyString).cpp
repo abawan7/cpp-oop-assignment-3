@@ -113,6 +113,7 @@ MyString MyString::operator=(MyString& obj1)
 				continue;
 			}
 			flag = false;
+			break;
 		}
 	}
 	else {
@@ -393,15 +394,12 @@ void operator+(float obj, MyString obj1) {
 	int count = 0;
 	strcpy_s(a, num.c_str());
 
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < strlen(a); i++)
 	{
-		if ((a[i] >= 'A' && a[i] <= 'Z') || (a[i] >= 'a' && a[i] <= 'z'))
-		{
-			count++;
-		}
+		count++;
 	}
 
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < count; i++)
 	{
 		t.str[i] = a[i];
 	}
@@ -460,6 +458,15 @@ int main()
 	cout << "The Character On the given Index In String 2: " << S2.Index(index) << endl;
 
 	cout << "\n--------------------------" << endl;
+	char bl[100] = { 'c','h','a','r','f' };
+	cout << "Char Array Appending After:    ";
+	S1 + bl;
+	cout << endl << endl;
+	cout << "Char Array Appending Before:    ";
+	bl + S1;
+	cout << endl << endl;
+
+	cout << "\n--------------------------" << endl;
 	string s;
 	cout << "Enter String:  ";
 	cin >> s;
@@ -492,17 +499,6 @@ int main()
 	cout << endl << endl;
 	cout << "Appending Before:    ";
 	p + S1;
-	cout << endl << endl;
-
-	cout << "\n--------------------------" << endl;
-	char y[100];
-	cout << "Enter Character Array: ";
-	cin.getline(y, 100);
-	cout << "Appending After:    ";
-	S1 + y;
-	cout << endl << endl;
-	cout << "Appending Before:    ";
-	y + S1;
 	cout << endl << endl;
 
 	cout << "\n--------------------------" << endl;
